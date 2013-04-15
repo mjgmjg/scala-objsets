@@ -112,6 +112,7 @@ abstract class TweetSet {
 
 class Empty extends TweetSet {
 
+  //jeœli mamy empty tweet to zawsze zwracamy pusty tweet
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = return new Empty
 
   /**
@@ -129,7 +130,12 @@ class Empty extends TweetSet {
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = ???
+  //jesli flitr zwraca true dla elementu to dodaj po prawej element nowego tweetseta,
+  //jesli nie, to dodaj set z prawej
+  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
+    if(p(elem)) filterAcc(p,filterAcc(p,right)).incl(elem)
+    else filterAcc(p,filterAcc(p,right))
+  } 
 
   /**
    * The following methods are already implemented
@@ -140,6 +146,8 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     else if (elem.text < x.text) right.contains(x)
     else true
 
+    
+    //dodaje tweet
   def incl(x: Tweet): TweetSet = {
     if (x.text < elem.text) new NonEmpty(elem, left.incl(x), right)
     else if (elem.text < x.text) new NonEmpty(elem, left, right.incl(x))
