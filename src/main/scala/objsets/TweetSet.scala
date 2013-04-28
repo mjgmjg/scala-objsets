@@ -130,15 +130,23 @@ class Empty extends TweetSet {
   def remove(tweet: Tweet): TweetSet = this
 
   def foreach(f: Tweet => Unit): Unit = ()
-  
+
   def isEmpty(): Boolean = true
-  
-  def mostRetweetedMax(currentMax: Tweet): Tweet = if(currentMax.retweets == -1) throw new NoSuchElementException() else currentMax
+
+  def mostRetweetedMax(currentMax: Tweet): Tweet = if (currentMax.retweets == -1) throw new NoSuchElementException() else currentMax
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = ???
+  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet =
+    if (p(elem)) right.filterAcc(p, left.filterAcc(p, acc incl elem))
+    else right.filterAcc(p, left.filterAcc(p, acc))
+
+  def mostRetweetedMax(currentMax: Tweet): Tweet =
+    if (elem.retweets > currentMax.retweets) right.mostRetweetedMax(left.mostRetweetedMax(elem))
+    else right.mostRetweetedMax(left.mostRetweetedMax(currentMax))
+
+  def isEmpty(): Boolean = false
 
   /**
    * The following methods are already implemented
