@@ -132,6 +132,8 @@ class Empty extends TweetSet {
   def foreach(f: Tweet => Unit): Unit = ()
   
   def isEmpty(): Boolean = true
+  
+  def mostRetweetedMax(currentMax: Tweet): Tweet = if(currentMax.retweets == -1) throw new NoSuchElementException() else currentMax
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
