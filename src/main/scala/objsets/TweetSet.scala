@@ -66,7 +66,9 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet = mostRetweetedMax(new Tweet("", "", -1))
+  
+  def mostRetweetedMax(currentMax: Tweet): Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
