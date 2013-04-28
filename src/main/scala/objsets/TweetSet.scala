@@ -79,9 +79,15 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = descendingByRetweetAcc(this)
 
+  def descendingByRetweetAcc(set: TweetSet): TweetList = 
+    if(set.isEmpty) Nil
+    else new Cons(set.mostRetweeted, descendingByRetweetAcc(set.remove(set.mostRetweeted)))
 
+  def isEmpty(): Boolean
+   
+   
   /**
    * The following methods are already implemented
    */
