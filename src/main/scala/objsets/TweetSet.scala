@@ -9,7 +9,7 @@ import TweetReader._
 class Tweet(val user: String, val text: String, val retweets: Int) {
   override def toString: String =
     "User: " + user + "\n" +
-    "Text: " + text + " [" + retweets + "]"
+      "Text: " + text + " [" + retweets + "]"
 }
 
 /**
@@ -55,7 +55,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-   def union(that: TweetSet): TweetSet = filterAcc(tweet => !(that contains tweet), that)
+  def union(that: TweetSet): TweetSet = filterAcc(tweet => !(that contains tweet), that)
 
   /**
    * Returns the tweet from this set which has the smallest retweet count.
@@ -67,7 +67,7 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
   def mostRetweeted: Tweet = mostRetweetedMax(new Tweet("", "", -1))
-  
+
   def mostRetweetedMax(currentMax: Tweet): Tweet
 
   /**
@@ -81,13 +81,12 @@ abstract class TweetSet {
    */
   def descendingByRetweet: TweetList = descendingByRetweetAcc(this)
 
-  def descendingByRetweetAcc(set: TweetSet): TweetList = 
-    if(set.isEmpty) Nil
+  def descendingByRetweetAcc(set: TweetSet): TweetList =
+    if (set.isEmpty) Nil
     else new Cons(set.mostRetweeted, descendingByRetweetAcc(set.remove(set.mostRetweeted)))
 
   def isEmpty(): Boolean
-   
-   
+
   /**
    * The following methods are already implemented
    */
@@ -120,7 +119,6 @@ class Empty extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = ???
 
-
   /**
    * The following methods are already implemented
    */
@@ -137,7 +135,6 @@ class Empty extends TweetSet {
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = ???
-
 
   /**
    * The following methods are already implemented
@@ -186,7 +183,6 @@ object Nil extends TweetList {
 class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
   def isEmpty = false
 }
-
 
 object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
